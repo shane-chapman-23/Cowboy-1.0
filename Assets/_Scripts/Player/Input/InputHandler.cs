@@ -6,6 +6,9 @@ public class InputHandler : MonoBehaviour
     private Vector2 _rawMovementInput;
     public int NormInputX {  get; private set; }
     public bool GallopInput { get; private set; }
+    public bool LassoInputDown { get; private set; }
+    public bool LassoInputUp { get; private set; }
+
 
     public void OnMoveInput(InputAction.CallbackContext context)
     {
@@ -25,5 +28,25 @@ public class InputHandler : MonoBehaviour
         {
             GallopInput = false;
         }
+    }
+
+    public void OnLassoInput(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            LassoInputDown = true;
+            LassoInputUp = false;
+        }
+
+        if (context.canceled)
+        {
+            LassoInputDown = false;
+            LassoInputUp = true;
+        }
+    }
+
+    public void SetLassoInputUpFalse()
+    {
+        LassoInputUp = false;
     }
 }

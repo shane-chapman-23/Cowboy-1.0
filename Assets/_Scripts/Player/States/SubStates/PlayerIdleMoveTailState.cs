@@ -21,6 +21,7 @@ public class PlayerIdleMoveTailState : PlayerIdleState
         base.LogicUpdate();
 
         CheckForAnimationFinish();
+        CheckForLassoInput();
     }
 
     public override void PhysicsUpdate()

@@ -34,6 +34,7 @@ public class PlayerIdleState : PlayerState
         base.LogicUpdate();
 
         CheckForMovementInput();
+    
         HandleIdleVariationChanges();
     }
 
@@ -42,6 +43,7 @@ public class PlayerIdleState : PlayerState
         base.PhysicsUpdate();
     }
 
+    #region Check Functions
     private void CheckForMovementInput()
     {
         if (player.xInput != 0 && !poopAnimationPlaying)
@@ -50,10 +52,28 @@ public class PlayerIdleState : PlayerState
         }
     }
 
+    protected void CheckForAnimationFinish()
+    {
+        if (player.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1 && !player.Anim.IsInTransition(0))
+        {
+            player.ChangeState(player.IdleState);
+        }
+    }
+
+    protected void CheckForLassoInput()
+    {
+        if (player.InputHandler.LassoInputDown)
+        {
+            player.ChangeState(player.IdleState);
+        }
+    }
+    #endregion
+
+    #region Idle Variation
     private void HandleIdleVariationChanges()
     {
         _timeToNextVariation -= Time.deltaTime;
-        if (_timeToNextVariation <= 0f)
+        if (_timeToNextVariation <= 0f && !player.InputHandler.LassoInputDown)
         {
             ChangeToRandomIdleVariation();
             _timeToNextVariation = _variationChangeInterval;
@@ -67,7 +87,8 @@ public class PlayerIdleState : PlayerState
             { IdleStateVariation.IdleMoveEars, 0.6f },
             { IdleStateVariation.IdleMoveTail, 0.6f },
             { IdleStateVariation.IdleTurn, 0.3f },
-            { IdleStateVariation.IdlePoop, 0.2f }
+            { IdleStateVariation.IdlePoop, 0.2f },
+            { IdleStateVariation.IdleEat, 0.2f }
         };
     }
 
@@ -87,6 +108,9 @@ public class PlayerIdleState : PlayerState
                 break;
             case IdleStateVariation.IdlePoop:
                 player.ChangeState(player.IdlePoopState);
+                break;
+            case IdleStateVariation.IdleEat:
+                player.ChangeState(player.IdleEatState);
                 break;
         }
     }
@@ -114,13 +138,8 @@ public class PlayerIdleState : PlayerState
         return IdleStateVariation.IdleMoveTail;
     }
 
-    protected void CheckForAnimationFinish()
-    {
-        if (player.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1 && !player.Anim.IsInTransition(0))
-        {
-            player.ChangeState(player.IdleState);
-        }
-    }
+    #endregion
+
 }
 
 public enum IdleStateVariation
@@ -128,5 +147,6 @@ public enum IdleStateVariation
     IdleMoveEars,
     IdleMoveTail,
     IdleTurn,
-    IdlePoop
+    IdlePoop,
+    IdleEat
 }

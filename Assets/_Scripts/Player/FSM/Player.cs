@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     public PlayerIdleMoveEarsState IdleMoveEarsState { get; private set; }
     public PlayerIdleTurnState IdleTurnState { get; private set; }
     public PlayerIdlePoopState IdlePoopState { get; private set; }
+    public PlayerIdleEatState IdleEatState { get; private set; }
     //Move States
     public PlayerTrotState TrotState { get; private set; }
     public PlayerGallopState GallopState { get; private set; }
@@ -52,6 +53,7 @@ public class Player : MonoBehaviour
         IdleMoveEarsState = new PlayerIdleMoveEarsState(this, StateMachineController, _playerData, "idleEars");
         IdleTurnState = new PlayerIdleTurnState(this, StateMachineController, _playerData, "idleTurn");
         IdlePoopState = new PlayerIdlePoopState(this, StateMachineController, _playerData, "idlePoop");
+        IdleEatState = new PlayerIdleEatState(this, StateMachineController, _playerData, "idleEat");
 
         TrotState = new PlayerTrotState(this, StateMachineController, _playerData, "trot");
         GallopState = new PlayerGallopState(this, StateMachineController, _playerData, "gallop");

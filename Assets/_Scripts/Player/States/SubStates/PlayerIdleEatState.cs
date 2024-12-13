@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class PlayerIdleMoveEarsState : PlayerIdleState
+public class PlayerIdleEatState : PlayerIdleState
 {
-    public PlayerIdleMoveEarsState(Player player, PlayerFSMController stateMachineController, PlayerData playerData, string animBoolName) : base(player, stateMachineController, playerData, animBoolName)
+    public PlayerIdleEatState(Player player, PlayerFSMController stateMachineController, PlayerData playerData, string animBoolName) : base(player, stateMachineController, playerData, animBoolName)
     {
     }
 

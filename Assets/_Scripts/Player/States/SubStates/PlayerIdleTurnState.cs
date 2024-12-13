@@ -21,6 +21,7 @@ public class PlayerIdleTurnState : PlayerIdleState
         base.LogicUpdate();
 
         CheckForAnimationFinish();
+        CheckForLassoInput();
     }
 
     public override void PhysicsUpdate()

@@ -58,8 +58,7 @@ public class LassoController : MonoBehaviour
     {
         HandleInstantiateAndThrowLasso();
         HandleReturnLasso();
-        HandleDestroyLassoOnReturn();
-        
+        HandleDestroyLasso();
     }
 
     #region Lasso Animations
@@ -132,7 +131,7 @@ public class LassoController : MonoBehaviour
         }
     }
 
-    private void HandleDestroyLassoOnReturn()
+    private void HandleDestroyLasso()
     {
         float distanceToPlayer = Vector2.Distance(_lassoInstance.transform.position, _lassoThrownAnchor.position);
 
@@ -177,23 +176,59 @@ public class LassoController : MonoBehaviour
     #region Pixel Line Renderer
     private void HandlePixelPerfectLine()
     {
-        if (_lassoSpawned || _animalLassoed)
-        {
-            _lassoLineAnchor = _lassoInstance.transform.GetChild(0).transform.position;
-
-            UpdatePixelPerfectLine();
-        }
-        else
+        if (!IsLassoActive())
         {
             ClearPixelPerfectLine();
+            return;
+        }
+
+        UpdateLassoAnchors();
+        UpdatePixelPerfectLine();
+    }
+
+    private bool IsLassoActive()
+    {
+        return _lassoSpawned || _animalLassoed;
+    }
+
+    private void UpdateLassoAnchors()
+    {
+        UpdateLassoLineAnchor();
+        UpdateAnimalLassoAnchor();
+    }
+
+    private void UpdateLassoLineAnchor()
+    {
+        if (_lassoSpawned)
+        {
+            _lassoLineAnchor = _lassoInstance.transform.GetChild(0).position;
         }
     }
+
+    private void UpdateAnimalLassoAnchor()
+    {
+        if (_animalLassoed && _currentLassoedAnimal != null)
+        {
+            _animalLassoAnchor = _currentLassoedAnimal.transform.GetChild(0).position;
+        }
+    }
+
 
     private void UpdatePixelPerfectLine()
     {
         Vector3 startPos = GetLineStartPosition();
         Vector3 endPos = GetLineEndPosition();
         PlotBresenhamLine(startPos, endPos);
+    }
+
+    private Vector3 GetLineStartPosition()
+    {
+        return _animalLassoed ? _animalLassoedLineAnchor.position : _lassoThrownAnchor.position;
+    }
+    private Vector3 GetLineEndPosition()
+    {
+        return _animalLassoed ? _animalLassoAnchor
+            : _lassoSpawned ? _lassoLineAnchor : Vector3.zero;
     }
 
     private void ClearPixelPerfectLine()
@@ -257,21 +292,14 @@ public class LassoController : MonoBehaviour
             _lassoPixelInstances[i].SetActive(false);
         }
     }
-    private Vector3 GetLineStartPosition()
-    {
-        return _animalLassoed ? _animalLassoedLineAnchor.position : _lassoThrownAnchor.position;
-    }
-    private Vector3 GetLineEndPosition()
-    {
-        return _animalLassoed ? _animalLassoAnchor : _lassoSpawned ? _lassoLineAnchor : Vector3.zero;
-    }
+
+
     #endregion
 
     #region Set Functions
     public void SetCurrentLassoedAnimal(GameObject animal)
     {
         _currentLassoedAnimal = animal;
-        _animalLassoAnchor = _currentLassoedAnimal.transform.GetChild(0).transform.position;
         _animalLassoed = true;
     }
     #endregion

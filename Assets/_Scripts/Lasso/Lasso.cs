@@ -16,5 +16,10 @@ public class Lasso : MonoBehaviour
         {
             isGrounded = true;
         }
+
+        if (((1 << collision.gameObject.layer) & _whatIsAnimal) != 0)
+        {
+            LassoController.Instance.SetCurrentLassoedAnimal(collision.gameObject);
+        }
     }
 }

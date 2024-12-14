@@ -5,6 +5,8 @@ public class Animal : MonoBehaviour
     public AnimalFSMController StateMachineController {  get; private set; }
     public AnimalIdleState IdleState { get; private set; }
     public AnimalFleeState FleeState { get; private set; }
+    public AnimalSlidingState SlidingState { get; private set; }
+    public AnimalLassoedState LassoedState { get; private set; }
 
     public Animator Anim {  get; private set; }
     public Rigidbody2D Rigidbody { get; private set; }
@@ -25,6 +27,8 @@ public class Animal : MonoBehaviour
 
         IdleState = new AnimalIdleState(this, StateMachineController, animalData, "idle");
         FleeState = new AnimalFleeState(this, StateMachineController, animalData, "flee");
+        SlidingState = new AnimalSlidingState(this, StateMachineController, animalData, "sliding");
+        LassoedState = new AnimalLassoedState(this, StateMachineController, animalData, "lassoed");
 
         Anim = GetComponent<Animator>();
         Rigidbody = GetComponent<Rigidbody2D>();
@@ -69,7 +73,7 @@ public class Animal : MonoBehaviour
         }
     }
 
-    private void Flip()
+    public void Flip()
     {
         FacingDirection *= -1;
         transform.Rotate(0.0f, 180.0f, 0.0f);

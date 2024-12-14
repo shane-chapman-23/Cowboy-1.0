@@ -25,6 +25,7 @@ public class AnimalFleeState : AnimalMoveState
 
         animal.SetFacingDirection();
         UpdateFleeStatus();
+        CheckAnimalLassoed();
     }
 
     public override void PhysicsUpdate()
@@ -41,18 +42,34 @@ public class AnimalFleeState : AnimalMoveState
 
     private void UpdateFleeStatus()
     {
-        if (!animal.PlayerDetected)
-        {
-            _stopFleeingTimer += Time.deltaTime;
-        }
-        else
+        StartFleeTimer();
+        StopFleeing();
+    }
+
+    private void StartFleeTimer()
+    {
+        if (animal.PlayerDetected)
         {
             _stopFleeingTimer = 0f;
+            return;
         }
 
+        _stopFleeingTimer += Time.deltaTime;
+    }
+
+    private void StopFleeing()
+    {
         if (_stopFleeingTimer >= _stopFleeingDelay)
         {
             animal.ChangeState(animal.IdleState);
+        }
+    }
+
+    private void CheckAnimalLassoed()
+    {
+        if (LassoController.Instance.AnimalLassoed)
+        {
+            animal.ChangeState(animal.SlidingState);
         }
     }
 }

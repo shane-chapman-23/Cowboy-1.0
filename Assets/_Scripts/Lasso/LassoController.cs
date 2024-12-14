@@ -33,7 +33,7 @@ public class LassoController : MonoBehaviour
     private AnimatorStateInfo _currentAnimStateInfo;
 
     private bool _lassoSpawned;
-    private bool _animalLassoed;
+    public bool AnimalLassoed { get; private set; }
 
     private float _throwForce = 4f;
     private float _returnForce = 20f;
@@ -188,7 +188,7 @@ public class LassoController : MonoBehaviour
 
     private bool IsLassoActive()
     {
-        return _lassoSpawned || _animalLassoed;
+        return _lassoSpawned || AnimalLassoed;
     }
 
     private void UpdateLassoAnchors()
@@ -207,7 +207,7 @@ public class LassoController : MonoBehaviour
 
     private void UpdateAnimalLassoAnchor()
     {
-        if (_animalLassoed && _currentLassoedAnimal != null)
+        if (AnimalLassoed && _currentLassoedAnimal != null)
         {
             _animalLassoAnchor = _currentLassoedAnimal.transform.GetChild(0).position;
         }
@@ -223,11 +223,11 @@ public class LassoController : MonoBehaviour
 
     private Vector3 GetLineStartPosition()
     {
-        return _animalLassoed ? _animalLassoedLineAnchor.position : _lassoThrownAnchor.position;
+        return AnimalLassoed ? _animalLassoedLineAnchor.position : _lassoThrownAnchor.position;
     }
     private Vector3 GetLineEndPosition()
     {
-        return _animalLassoed ? _animalLassoAnchor
+        return AnimalLassoed ? _animalLassoAnchor
             : _lassoSpawned ? _lassoLineAnchor : Vector3.zero;
     }
 
@@ -300,7 +300,7 @@ public class LassoController : MonoBehaviour
     public void SetCurrentLassoedAnimal(GameObject animal)
     {
         _currentLassoedAnimal = animal;
-        _animalLassoed = true;
+        AnimalLassoed = true;
     }
     #endregion
 

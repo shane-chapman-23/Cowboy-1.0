@@ -3,6 +3,8 @@ using UnityEngine.InputSystem.XInput;
 
 public class Player : MonoBehaviour
 {
+    public static Player Instance { get; private set; }
+
     #region States
     //Controller
     public PlayerFSMController StateMachineController {  get; private set; }
@@ -46,6 +48,8 @@ public class Player : MonoBehaviour
     #region Unity Callback Functions
     private void Awake()
     {
+        Instance = this;
+
         StateMachineController = new PlayerFSMController();
 
         IdleState = new PlayerIdleState(this, StateMachineController, _playerData, "idle");
@@ -61,7 +65,6 @@ public class Player : MonoBehaviour
         InputHandler = GetComponent<InputHandler>();
         Rigidbody = GetComponent<Rigidbody2D>();
         Anim = GetComponent<Animator>();
-        
     }
 
     private void Start()

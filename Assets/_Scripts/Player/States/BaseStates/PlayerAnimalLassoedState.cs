@@ -9,6 +9,8 @@ public class PlayerAnimalLassoedState : PlayerState
     public override void Enter()
     {
         base.Enter();
+
+        player.playerPositionOnAnimalLassoed = player.transform.position;
     }
 
     public override void Exit()
@@ -21,6 +23,7 @@ public class PlayerAnimalLassoedState : PlayerState
         base.LogicUpdate();
 
         HandleMinigameLoss();
+        HandleMinigameWin();
     }
 
     public override void PhysicsUpdate()
@@ -33,6 +36,14 @@ public class PlayerAnimalLassoedState : PlayerState
         if (MinigameManager.Instance.GameLost)
         {
             player.ChangeState(player.IdleState);
+        }
+    }
+
+    private void HandleMinigameWin()
+    {
+        if (MinigameManager.Instance.GameWon)
+        {
+            player.ChangeState(player.CaughtAnimalState);
         }
     }
 }

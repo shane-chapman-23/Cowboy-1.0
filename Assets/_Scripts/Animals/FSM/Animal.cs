@@ -7,6 +7,7 @@ public class Animal : MonoBehaviour
     public AnimalFleeState FleeState { get; private set; }
     public AnimalSlidingState SlidingState { get; private set; }
     public AnimalLassoedState LassoedState { get; private set; }
+    public AnimalCaughtState CaughtState { get; private set; }
 
     public Animator Anim {  get; private set; }
     public Rigidbody2D Rigidbody { get; private set; }
@@ -29,6 +30,7 @@ public class Animal : MonoBehaviour
         FleeState = new AnimalFleeState(this, StateMachineController, animalData, "flee");
         SlidingState = new AnimalSlidingState(this, StateMachineController, animalData, "sliding");
         LassoedState = new AnimalLassoedState(this, StateMachineController, animalData, "lassoed");
+        CaughtState = new AnimalCaughtState(this, StateMachineController, animalData, "idle");
 
         Anim = GetComponent<Animator>();
         Rigidbody = GetComponent<Rigidbody2D>();
@@ -60,6 +62,7 @@ public class Animal : MonoBehaviour
         StateMachineController.ChangeState(state);
     }
 
+    #region Set Functions
     public void SetVelocity(Vector2 direction, float velocity)
     {
         Rigidbody.linearVelocity = direction * velocity;
@@ -73,12 +76,7 @@ public class Animal : MonoBehaviour
         }
     }
 
-    public void Flip()
-    {
-        FacingDirection *= -1;
-        transform.Rotate(0.0f, 180.0f, 0.0f);
-    }
-
+    #endregion
 
     #region Player Check Functions
     private void CheckForPlayer()
@@ -127,6 +125,20 @@ public class Animal : MonoBehaviour
         return false;
     }
     #endregion
+
+    public void Flip()
+    {
+        FacingDirection *= -1;
+        transform.Rotate(0.0f, 180.0f, 0.0f);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (((1 << collision.gameObject.layer) & animalData.whatIsLasso) != 0)
+        {
+            ChangeState(SlidingState);
+        }
+    }
 }
 
 

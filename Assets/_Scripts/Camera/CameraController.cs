@@ -28,7 +28,13 @@ public class CameraController : MonoBehaviour
 
     private void HandleAnimalLassoedCamera()
     {
-        if (LassoController.Instance.AnimalLassoed)
+        if (MinigameManager.Instance.GameWon)
+        {
+            _camera.Follow = null;
+            ManuallySetCameraPos();
+            ReturnToOriginalFieldOfView();
+        }
+        else if (LassoController.Instance.AnimalLassoed)
         {
             FindAnimalAndPlayerCenter();
             ChangeCameraPositionOnLassoed();
@@ -37,7 +43,14 @@ public class CameraController : MonoBehaviour
         else
         {
             _camera.Follow = Player.Instance.transform;
+            ReturnToOriginalFieldOfView();
         }
+    }
+
+    private void ManuallySetCameraPos()
+    {
+        Vector3 manualPosition = new Vector3(Player.Instance.playerPositionOnAnimalLassoed.x, (Player.Instance.playerPositionOnAnimalLassoed.y + 0.42f), _camera.transform.position.z);
+        _camera.transform.position = manualPosition;
     }
 
     private void FindAnimalAndPlayerCenter()
@@ -75,7 +88,11 @@ public class CameraController : MonoBehaviour
 
     private void HandleCameraShakeOnLassoed()
     {
-        if (LassoController.Instance.AnimalLassoed)
+        if (MinigameManager.Instance.GameWon)
+        {
+            _cinemachineBasicMultiChannelPerlin.AmplitudeGain = 0f;
+        }
+        else if (LassoController.Instance.AnimalLassoed)
         {
             _cinemachineBasicMultiChannelPerlin.AmplitudeGain = 0.2f + (MinigameManager.Instance.FillAmount * 2);
         }

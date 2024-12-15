@@ -29,6 +29,8 @@ public class AnimalLassoedState : AnimalState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
+
+        HandleGameWin();
     }
 
     public override void PhysicsUpdate()
@@ -103,6 +105,14 @@ public class AnimalLassoedState : AnimalState
         if (MinigameManager.Instance.GameLost)
         {
             animal.ChangeState(animal.IdleState);
+        }
+    }
+
+    private void HandleGameWin()
+    {
+        if (MinigameManager.Instance.GameWon)
+        {
+            animal.ChangeState(animal.CaughtState);
         }
     }
 }

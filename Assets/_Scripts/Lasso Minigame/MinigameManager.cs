@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MinigameManager : MonoBehaviour
 {
@@ -17,7 +18,19 @@ public class MinigameManager : MonoBehaviour
     public bool GameWon { get; private set; }
     public bool GameLost { get; private set; }
 
+    [SerializeField]
+    private Image _fatigueGuage;
+    [SerializeField]
+    private Image _fatigueFill;
+
+    private float _fatigueAmount = 0f;
+    private float _maxFatigue = 20f;
+    private float _fatigueRate = 60f;
     public float FillAmount { get; private set; }
+
+    private float _delayTimer;
+    private float _randomDelay;
+    private bool _delayStarted;
 
     private void Awake()
     {
@@ -26,8 +39,72 @@ public class MinigameManager : MonoBehaviour
 
     private void Update()
     {
+        HandleFatigueGuage();
         HandleGameLoss();
+        HandleGameWin();
     }
+
+    #region Fatigue Functions
+    private void HandleFatigueGuage()
+    {
+        bool startFatigueConditions = MinigameStarted && !GameWon && !GameLost;
+
+        if (startFatigueConditions)
+        {
+            _fatigueGuage.gameObject.SetActive(true);
+
+            float input = Player.Instance.InputHandler.NormInputX;
+            float directionFactor = _playerOnRight ? -1 : 1;
+
+            if (input != 0)
+            {
+                if (!_delayStarted)
+                {
+                    _delayStarted = true;
+                    _delayTimer = 0;
+                    _randomDelay = UnityEngine.Random.Range(0.5f, 1.5f);
+                }
+
+                _delayTimer += Time.deltaTime;
+
+                if (_delayTimer >= _randomDelay)
+                {
+                    UpdateFatigueGuage(input, directionFactor);
+                }
+            }
+            else
+            {
+                _delayStarted = false;
+                UpdateFatigueGuage(input, directionFactor);
+            }
+        }
+        else
+        {
+            _fatigueGuage.gameObject.SetActive(false);
+        }
+    }
+
+    private void UpdateFatigueGuage(float input, float directionFactor)
+    {
+        if (input * directionFactor < 0)
+        {
+            _fatigueAmount += _fatigueRate * Time.deltaTime;
+        }
+        else
+        {
+            _fatigueAmount -= _fatigueRate * Time.deltaTime * 20f;
+        }
+
+        _fatigueAmount = Mathf.Clamp(_fatigueAmount, 0, _maxFatigue);
+        FillAmount = _fatigueAmount / _maxFatigue;
+        _fatigueFill.rectTransform.localScale = new Vector3(1, FillAmount, 1);
+
+        if (FillAmount == 1)
+        {
+            GameLoss();
+        }
+    }
+    #endregion
 
     public void SetMinigameStartedTrue()
     {
@@ -101,6 +178,11 @@ public class MinigameManager : MonoBehaviour
     private void GameWin()
     {
         GameWon = true;
+    }
+
+    public void SetGameWonToFalse()
+    {
+        GameWon = false;
     }
 
     private void GameLoss()

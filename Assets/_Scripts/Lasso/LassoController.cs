@@ -60,7 +60,8 @@ public class LassoController : MonoBehaviour
         HandleInstantiateAndThrowLasso();
         HandleReturnLasso();
         HandleDestroyLasso();
-        
+        HandleDestroyLassoPrefabOnAnimalLassoed();
+
     }
 
     #region Lasso Animations
@@ -135,9 +136,22 @@ public class LassoController : MonoBehaviour
 
     private void HandleDestroyLasso()
     {
-        float distanceToPlayer = Vector2.Distance(_lassoInstance.transform.position, _lassoThrownAnchor.position);
+        if (_lassoInstance != null)
+        {
+            float distanceToPlayer = Vector2.Distance(_lassoInstance.transform.position, _lassoThrownAnchor.position);
 
-        if (_lassoSpawned && distanceToPlayer < 0.1f)
+            if (_lassoSpawned && distanceToPlayer < 0.1f)
+            {
+                DestroyLasso();
+                _lassoSpawned = false;
+            }
+        }
+
+    }
+
+    private void HandleDestroyLassoPrefabOnAnimalLassoed()
+    {
+        if (AnimalLassoed)
         {
             DestroyLasso();
             _lassoSpawned = false;
@@ -201,7 +215,7 @@ public class LassoController : MonoBehaviour
 
     private void UpdateLassoLineAnchor()
     {
-        if (_lassoSpawned)
+        if (_lassoInstance != null && _lassoSpawned)
         {
             _lassoLineAnchor = _lassoInstance.transform.GetChild(0).position;
         }
@@ -316,6 +330,17 @@ public class LassoController : MonoBehaviour
         CurrentLassoedAnimal = animal;
         AnimalLassoed = true;
     }
+
+    public void SetCurrentLassoedAnimalNull()
+    {
+        CurrentLassoedAnimal = null;
+        AnimalLassoed = false;
+    }
     #endregion
+
+    public void DestroyCurrentAnimal()
+    {
+        Destroy(CurrentLassoedAnimal);
+    }
 
 }

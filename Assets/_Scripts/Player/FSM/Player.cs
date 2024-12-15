@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
     //Lassoed States
     public PlayerSlidingState SlidingState { get; private set; }
     public PlayerAnimalLassoedState LassoedAnimalState { get; private set; }
+    public PlayerAnimalCaughtState CaughtAnimalState { get; private set; }
     #endregion
 
     #region Components
@@ -42,6 +43,8 @@ public class Player : MonoBehaviour
     #region Other
     private Vector2 _workSpace;
     private Vector2 _currentVelocity;
+
+    public Vector3 playerPositionOnAnimalLassoed;
 
     [HideInInspector]
     public int facingDirection = 1;
@@ -67,6 +70,7 @@ public class Player : MonoBehaviour
 
         SlidingState = new PlayerSlidingState(this, StateMachineController, _playerData, "sliding");
         LassoedAnimalState = new PlayerAnimalLassoedState(this, StateMachineController, _playerData, "lassoed");
+        CaughtAnimalState = new PlayerAnimalCaughtState(this, StateMachineController, _playerData, "trot");
 
         InputHandler = GetComponent<InputHandler>();
         Rigidbody = GetComponent<Rigidbody2D>();
@@ -85,8 +89,6 @@ public class Player : MonoBehaviour
         xInput = InputHandler.NormInputX;
 
         HandleSlidingStateChange();
-
-        //Debug.Log(StateMachineController.CurrentState);
     }
 
     private void FixedUpdate()
@@ -102,7 +104,12 @@ public class Player : MonoBehaviour
 
     private void HandleSlidingStateChange()
     {
-        if (LassoController.Instance.AnimalLassoed && StateMachineController.CurrentState != SlidingState && StateMachineController.CurrentState != LassoedAnimalState)
+        bool slidingStateConditions = LassoController.Instance.AnimalLassoed
+            && StateMachineController.CurrentState != SlidingState
+            && StateMachineController.CurrentState != LassoedAnimalState
+            && StateMachineController.CurrentState != CaughtAnimalState;
+
+        if (slidingStateConditions)
         {
             ChangeState(SlidingState);
         }

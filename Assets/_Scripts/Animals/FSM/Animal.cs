@@ -100,10 +100,12 @@ public class Animal : MonoBehaviour
         if (DirectionToPlayer.x > 0)
         {
             PlayerIsRight = true;
+            MinigameManager.Instance.SetPlayerOnRightTrue();
         }
         else
         {
             PlayerIsRight = false;
+            MinigameManager.Instance.SetPlayerOnRightFalse();  
         }
     }
     

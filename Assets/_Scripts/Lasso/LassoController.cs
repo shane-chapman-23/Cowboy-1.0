@@ -27,8 +27,8 @@ public class LassoController : MonoBehaviour
     private List<GameObject> _lassoPixelInstances = new List<GameObject>();
 
     //Lassoed Animal
-    private GameObject _currentLassoedAnimal;
     private Vector3 _animalLassoAnchor;
+    public GameObject CurrentLassoedAnimal { get; private set; }
 
     private AnimatorStateInfo _currentAnimStateInfo;
 
@@ -47,6 +47,7 @@ public class LassoController : MonoBehaviour
     private void Update()
     {
         HandleLassoAnimationSync();
+        HandleMinigameLoss();
     }
 
     private void LateUpdate()
@@ -59,6 +60,7 @@ public class LassoController : MonoBehaviour
         HandleInstantiateAndThrowLasso();
         HandleReturnLasso();
         HandleDestroyLasso();
+        
     }
 
     #region Lasso Animations
@@ -207,9 +209,9 @@ public class LassoController : MonoBehaviour
 
     private void UpdateAnimalLassoAnchor()
     {
-        if (AnimalLassoed && _currentLassoedAnimal != null)
+        if (AnimalLassoed && CurrentLassoedAnimal != null)
         {
-            _animalLassoAnchor = _currentLassoedAnimal.transform.GetChild(0).position;
+            _animalLassoAnchor = CurrentLassoedAnimal.transform.GetChild(0).position;
         }
     }
 
@@ -296,10 +298,22 @@ public class LassoController : MonoBehaviour
 
     #endregion
 
+    #region Minigame Win Loss Functions
+    private void HandleMinigameLoss()
+    {
+        if (MinigameManager.Instance.GameLost)
+        {
+            AnimalLassoed = false;
+            _lassoSpawned = false;
+            CurrentLassoedAnimal = null;
+        }
+    }
+    #endregion
+
     #region Set Functions
     public void SetCurrentLassoedAnimal(GameObject animal)
     {
-        _currentLassoedAnimal = animal;
+        CurrentLassoedAnimal = animal;
         AnimalLassoed = true;
     }
     #endregion

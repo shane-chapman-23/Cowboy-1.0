@@ -19,10 +19,20 @@ public class PlayerAnimalLassoedState : PlayerState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
+
+        HandleMinigameLoss();
     }
 
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
+    }
+
+    private void HandleMinigameLoss()
+    {
+        if (MinigameManager.Instance.GameLost)
+        {
+            player.ChangeState(player.IdleState);
+        }
     }
 }

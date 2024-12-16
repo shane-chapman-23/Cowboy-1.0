@@ -19,6 +19,7 @@ public class CameraController : MonoBehaviour
         _camera = GetComponent<CinemachineCamera>();
         _cinemachineBasicMultiChannelPerlin = GetComponent<CinemachineBasicMultiChannelPerlin>();
         _followTarget = new GameObject("CameraFollowTarget");
+        _camera.Follow = _followTarget.transform;
     }
 
     private void FixedUpdate()
@@ -44,7 +45,6 @@ public class CameraController : MonoBehaviour
         else
         {
             UpdateFollowTarget();
-            _camera.Follow = Player.Instance.transform;
             ReturnToOriginalFieldOfView();
             
         }
@@ -118,6 +118,7 @@ public class CameraController : MonoBehaviour
             offset = -_followOffset;
         }
 
-        _followTarget.transform.position = Player.Instance.transform.position + offset;
+        Vector3 targetPosition = Player.Instance.transform.position + offset;
+        _followTarget.transform.position = Vector3.Lerp(_followTarget.transform.position, targetPosition, Time.deltaTime * 2f);
     }
 }

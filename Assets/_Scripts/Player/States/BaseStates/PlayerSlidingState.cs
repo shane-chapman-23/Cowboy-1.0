@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerSlidingState : PlayerState
 {
-    private float _decelerationRate = 5f;
+    private float _decelerationRate = 10f;
     public PlayerSlidingState(Player player, PlayerFSMController stateMachineController, PlayerData playerData, string animBoolName) : base(player, stateMachineController, playerData, animBoolName)
     {
     }

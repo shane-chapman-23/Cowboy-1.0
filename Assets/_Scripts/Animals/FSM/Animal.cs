@@ -98,12 +98,14 @@ public class Animal : MonoBehaviour
         if (DirectionToPlayer.x > 0)
         {
             PlayerIsRight = true;
-            MinigameManager.Instance.SetPlayerOnRightTrue();
+            if (LassoController.Instance.CurrentLassoedAnimal == this.gameObject)
+                MinigameManager.Instance.SetPlayerOnRightTrue();
         }
         else
         {
             PlayerIsRight = false;
-            MinigameManager.Instance.SetPlayerOnRightFalse();  
+            if (LassoController.Instance.CurrentLassoedAnimal == this.gameObject)
+                MinigameManager.Instance.SetPlayerOnRightFalse();
         }
     }
     

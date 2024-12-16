@@ -3,7 +3,7 @@ using UnityEngine;
 public class AnimalFleeState : AnimalMoveState
 {
     private float _stopFleeingTimer = 0f;
-    private float _stopFleeingDelay = 5f;
+    private float _stopFleeingDelay = 2f;
 
     public AnimalFleeState(Animal animal, AnimalFSMController stateMachineController, AnimalData animalData, string animBoolName) : base(animal, stateMachineController, animalData, animBoolName)
     {

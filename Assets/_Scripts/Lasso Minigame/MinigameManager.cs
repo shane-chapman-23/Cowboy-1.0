@@ -42,6 +42,8 @@ public class MinigameManager : MonoBehaviour
         HandleFatigueGuage();
         HandleGameLoss();
         HandleGameWin();
+
+        Debug.Log(FillAmount);
     }
 
     #region Fatigue Functions
@@ -80,6 +82,7 @@ public class MinigameManager : MonoBehaviour
         }
         else
         {
+            FillAmount = 0;
             _fatigueGuage.gameObject.SetActive(false);
         }
     }
@@ -101,8 +104,14 @@ public class MinigameManager : MonoBehaviour
 
         if (FillAmount == 1)
         {
+            FillAmount = 0;
+            _delayTimer = 0;
+            _fatigueAmount = 0;
+            _delayStarted = false;
+            _fatigueFill.rectTransform.localScale = new Vector3(1, 0, 1);
             GameLoss();
             SetMiniGameStartedFalse();
+            
         }
     }
     #endregion
@@ -197,5 +206,6 @@ public class MinigameManager : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
         GameLost = false;
         GameWon = false;
+
     }
 }

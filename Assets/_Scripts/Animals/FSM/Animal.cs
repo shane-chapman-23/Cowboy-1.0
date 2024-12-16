@@ -134,6 +134,11 @@ public class Animal : MonoBehaviour
         transform.Rotate(0.0f, 180.0f, 0.0f);
     }
 
+    private void CheckForNearbyFleeingAnimals()
+    {
+
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (((1 << collision.gameObject.layer) & animalData.whatIsLasso) != 0)

@@ -44,9 +44,10 @@ public class CameraController : MonoBehaviour
         }
         else
         {
-            UpdateFollowTarget();
+            //UpdateFollowTarget();
             ReturnToOriginalFieldOfView();
-            
+            _camera.Follow = Player.Instance.transform;
+
         }
     }
 

@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     private float fadeDuration = 1.0f;
     private bool _isTransitioning;
 
+    private int _animalsCaught = 0;
+
     public Image fadeImage;
 
     private void Awake()
@@ -48,6 +50,10 @@ public class GameManager : MonoBehaviour
         Player.Instance.transform.position = Player.Instance.playerPositionOnAnimalLassoed;
 
         HandlePlayerFacingDirection();
+
+        AnimalManager.Instance.SpawnAnimal();
+
+        _animalsCaught++;
 
         yield return new WaitForSeconds(1f);
         yield return StartCoroutine(FadeFromBlack());

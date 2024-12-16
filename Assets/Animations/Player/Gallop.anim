@@ -21,17 +21,17 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: -5372920564066432229, guid: 068e31de658b74b42b1375eb7a9616fa, type: 3}
+      value: {fileID: 2119905105, guid: f7e83ada11b2b02418513c276855afe4, type: 3}
     - time: 0.1
-      value: {fileID: 3928609478177471707, guid: 068e31de658b74b42b1375eb7a9616fa, type: 3}
+      value: {fileID: 867687607, guid: f7e83ada11b2b02418513c276855afe4, type: 3}
     - time: 0.2
-      value: {fileID: -2300999805227872778, guid: 068e31de658b74b42b1375eb7a9616fa, type: 3}
+      value: {fileID: 1076108557, guid: f7e83ada11b2b02418513c276855afe4, type: 3}
     - time: 0.3
-      value: {fileID: 3646333955471862174, guid: 068e31de658b74b42b1375eb7a9616fa, type: 3}
+      value: {fileID: -44993015, guid: f7e83ada11b2b02418513c276855afe4, type: 3}
     - time: 0.4
-      value: {fileID: 8920526695142154973, guid: 068e31de658b74b42b1375eb7a9616fa, type: 3}
+      value: {fileID: 1176822488, guid: f7e83ada11b2b02418513c276855afe4, type: 3}
     - time: 0.5
-      value: {fileID: 241196702675980024, guid: 068e31de658b74b42b1375eb7a9616fa, type: 3}
+      value: {fileID: 1565193261, guid: f7e83ada11b2b02418513c276855afe4, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -54,12 +54,12 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: -5372920564066432229, guid: 068e31de658b74b42b1375eb7a9616fa, type: 3}
-    - {fileID: 3928609478177471707, guid: 068e31de658b74b42b1375eb7a9616fa, type: 3}
-    - {fileID: -2300999805227872778, guid: 068e31de658b74b42b1375eb7a9616fa, type: 3}
-    - {fileID: 3646333955471862174, guid: 068e31de658b74b42b1375eb7a9616fa, type: 3}
-    - {fileID: 8920526695142154973, guid: 068e31de658b74b42b1375eb7a9616fa, type: 3}
-    - {fileID: 241196702675980024, guid: 068e31de658b74b42b1375eb7a9616fa, type: 3}
+    - {fileID: 2119905105, guid: f7e83ada11b2b02418513c276855afe4, type: 3}
+    - {fileID: 867687607, guid: f7e83ada11b2b02418513c276855afe4, type: 3}
+    - {fileID: 1076108557, guid: f7e83ada11b2b02418513c276855afe4, type: 3}
+    - {fileID: -44993015, guid: f7e83ada11b2b02418513c276855afe4, type: 3}
+    - {fileID: 1176822488, guid: f7e83ada11b2b02418513c276855afe4, type: 3}
+    - {fileID: 1565193261, guid: f7e83ada11b2b02418513c276855afe4, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
@@ -84,4 +84,11 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 0.5
+    functionName: PlaySound
+    data: HorseGallop
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0

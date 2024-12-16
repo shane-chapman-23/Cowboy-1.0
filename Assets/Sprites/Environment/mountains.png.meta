@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: a9a5d0f940c68a94392934876b8fac13
+guid: a2b61ad418107dd4691004da3ce73519
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5291868761858960847
-    second: Landscape_0
+      213: 7099607018252260187
+    second: mountains_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -72,7 +72,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 4096
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -113,23 +113,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Landscape_0
+      name: mountains_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 4096
-        height: 128
+        width: 512
+        height: 77
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: fcde694f99e707940800000000000000
-      internalID: 5291868761858960847
+      spriteID: b53dbcfb7fed68260800000000000000
+      internalID: 7099607018252260187
       vertices: []
       indices: 
       edges: []
@@ -138,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 6747442a34b99084e94fa950b51d1f94
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Landscape_0: 5291868761858960847
+      mountains_0: 7099607018252260187
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

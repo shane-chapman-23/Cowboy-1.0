@@ -34,10 +34,9 @@ public class AnimalCaughtState : AnimalState
         directionToPlayer.y = 0;
         float distanceToPlayer = directionToPlayer.magnitude;
 
-        bool playerIsInFront = directionToPlayer.x > 0;
         bool playerIsWithin2f = distanceToPlayer < 2f;
 
-        if (!playerIsInFront && playerIsWithin2f)
+        if (playerIsWithin2f)
         {
             StopFollowing();
         }
@@ -65,7 +64,7 @@ public class AnimalCaughtState : AnimalState
 
     private void HandleAnimalFlip()
     {
-        if (animal.transform.localScale.x > 0f && animal.PlayerIsRight)
+        if (animal.Rigidbody.linearVelocity.magnitude > 0 && animal.FacingDirection == 1)
         {
             animal.Flip();
         }

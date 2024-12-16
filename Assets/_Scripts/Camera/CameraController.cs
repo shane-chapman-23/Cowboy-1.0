@@ -8,6 +8,7 @@ public class CameraController : MonoBehaviour
 
     private Vector3 _animalAndPlayerCenterPoint;
     private GameObject _followTarget;
+    private Vector3 _followOffset = new Vector3(2f, 0f, 0f);
 
     private float _zoomSpeed = 1f;
     private float _targetFOV = 2.5f;
@@ -42,8 +43,10 @@ public class CameraController : MonoBehaviour
         }
         else
         {
+            UpdateFollowTarget();
             _camera.Follow = Player.Instance.transform;
             ReturnToOriginalFieldOfView();
+            
         }
     }
 
@@ -100,5 +103,21 @@ public class CameraController : MonoBehaviour
         {
             _cinemachineBasicMultiChannelPerlin.AmplitudeGain = 0f;
         }
+    }
+
+    private void UpdateFollowTarget()
+    {
+        Vector3 offset = Vector3.zero; 
+
+        if (Player.Instance.Rigidbody.linearVelocity.x > 0)
+        {
+            offset = _followOffset;
+        }
+        else if (Player.Instance.Rigidbody.linearVelocity.x < 0)
+        {
+            offset = -_followOffset;
+        }
+
+        _followTarget.transform.position = Player.Instance.transform.position + offset;
     }
 }

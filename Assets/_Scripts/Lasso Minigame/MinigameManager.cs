@@ -102,6 +102,7 @@ public class MinigameManager : MonoBehaviour
         if (FillAmount == 1)
         {
             GameLoss();
+            SetMiniGameStartedFalse();
         }
     }
     #endregion

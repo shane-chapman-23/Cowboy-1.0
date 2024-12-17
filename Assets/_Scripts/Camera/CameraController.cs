@@ -33,7 +33,7 @@ public class CameraController : MonoBehaviour
         if (MinigameManager.Instance.GameWon)
         {
             _camera.Follow = null;
-            ManuallySetCameraPos();
+            //ManuallySetCameraPos();
             ReturnToOriginalFieldOfView();
         }
         else if (LassoController.Instance.AnimalLassoed)
@@ -44,22 +44,26 @@ public class CameraController : MonoBehaviour
         }
         else
         {
-            //UpdateFollowTarget();
             ReturnToOriginalFieldOfView();
-            _camera.Follow = Player.Instance.transform;
+            ReturnToOriginalFollowTarget();
 
         }
     }
 
+    private void ReturnToOriginalFollowTarget()
+    {
+        _camera.Follow = Player.Instance.transform;
+    }
+
     private void ManuallySetCameraPos()
     {
-        Vector3 manualPosition = new Vector3(Player.Instance.playerPositionOnAnimalLassoed.x, (Player.Instance.playerPositionOnAnimalLassoed.y + 0.42f), _camera.transform.position.z);
+        Vector3 manualPosition = new Vector3(Player.Instance.playerPositionOnAnimalLassoed.x, (Player.Instance.playerPositionOnAnimalLassoed.y), _camera.transform.position.z);
         _camera.transform.position = manualPosition;
     }
 
     private void FindAnimalAndPlayerCenter()
     {
-        _animalAndPlayerCenterPoint = (Player.Instance.transform.position + LassoController.Instance.CurrentLassoedAnimal.transform.position) / 2f;
+        _animalAndPlayerCenterPoint = new Vector2((Player.Instance.transform.position.x + LassoController.Instance.CurrentLassoedAnimal.transform.position.x) / 2f, Player.Instance.transform.position.y);
         _followTarget.transform.position = _animalAndPlayerCenterPoint;
     }
 
@@ -104,22 +108,5 @@ public class CameraController : MonoBehaviour
         {
             _cinemachineBasicMultiChannelPerlin.AmplitudeGain = 0f;
         }
-    }
-
-    private void UpdateFollowTarget()
-    {
-        Vector3 offset = Vector3.zero; 
-
-        if (Player.Instance.Rigidbody.linearVelocity.x > 0)
-        {
-            offset = _followOffset;
-        }
-        else if (Player.Instance.Rigidbody.linearVelocity.x < 0)
-        {
-            offset = -_followOffset;
-        }
-
-        Vector3 targetPosition = Player.Instance.transform.position + offset;
-        _followTarget.transform.position = Vector3.Lerp(_followTarget.transform.position, targetPosition, Time.deltaTime * 2f);
     }
 }

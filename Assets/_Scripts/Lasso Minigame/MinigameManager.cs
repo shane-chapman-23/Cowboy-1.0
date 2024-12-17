@@ -62,7 +62,7 @@ public class MinigameManager : MonoBehaviour
                 {
                     _delayStarted = true;
                     _delayTimer = 0;
-                    _randomDelay = UnityEngine.Random.Range(0.5f, 1.5f);
+                    _randomDelay = UnityEngine.Random.Range(0.2f, 1.5f);
                 }
 
                 _delayTimer += Time.deltaTime;
@@ -114,6 +114,8 @@ public class MinigameManager : MonoBehaviour
     }
     #endregion
 
+    #region Set Functions
+
     public void SetMinigameStartedTrue()
     {
         MinigameStarted = true;
@@ -146,6 +148,9 @@ public class MinigameManager : MonoBehaviour
         _playerOnRight = false;
     }
 
+    #endregion
+
+    #region Win Loss Functions
     private void HandleGameWin()
     {
 
@@ -206,4 +211,6 @@ public class MinigameManager : MonoBehaviour
         GameWon = false;
 
     }
+
+    #endregion
 }

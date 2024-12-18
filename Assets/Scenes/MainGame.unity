@@ -339,7 +339,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &239127412
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -918,7 +918,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 116.56, y: 1.24, z: -15}
+  m_LocalPosition: {x: -101.69, y: 1.24, z: -15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1270,7 +1270,7 @@ Transform:
   m_GameObject: {fileID: 1026484356}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 116.56, y: 1.24, z: -15}
+  m_LocalPosition: {x: -101.69, y: 1.24, z: -15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1356,6 +1356,34 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 0aa037bf745c1254da1e4ae42aec509b, type: 3}
     volume: 0.25
     pitch: 1
+    loop: 0
+    applyVariations: 1
+    source: {fileID: 0}
+  - name: HorseTrot
+    clip: {fileID: 8300000, guid: b8b17e61adfd4f540964d38aae96d4f1, type: 3}
+    volume: 0.403
+    pitch: 1
+    loop: 0
+    applyVariations: 1
+    source: {fileID: 0}
+  - name: LassoSwinging
+    clip: {fileID: 8300000, guid: e1d4c760be8ab3d459dd2d50ef230200, type: 3}
+    volume: 0.5
+    pitch: 1
+    loop: 1
+    applyVariations: 0
+    source: {fileID: 0}
+  - name: LassoThrowing
+    clip: {fileID: 8300000, guid: 39a444e368eec1f41b52727d72cb4963, type: 3}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    applyVariations: 0
+    source: {fileID: 0}
+  - name: RopeStretching
+    clip: {fileID: 8300000, guid: c6be8b81b49582e4f91f4fc5697f8c58, type: 3}
+    volume: 0.05
+    pitch: 1.21
     loop: 0
     applyVariations: 1
     source: {fileID: 0}
@@ -1568,6 +1596,7 @@ GameObject:
   - component: {fileID: 1383985731}
   - component: {fileID: 1383985732}
   - component: {fileID: 1383985733}
+  - component: {fileID: 1383985734}
   m_Layer: 6
   m_Name: Ground
   m_TagString: Untagged
@@ -1691,6 +1720,43 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 255.61029, y: 1.8287268}
   m_EdgeRadius: 0
+--- !u!70 &1383985734
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1383985730}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -124.2738, y: 0.01758337}
+  m_Size: {x: 7.4523926, y: 13.313762}
+  m_Direction: 0
 --- !u!1 &1410996196
 GameObject:
   m_ObjectHideFlags: 0
@@ -1975,7 +2041,7 @@ Transform:
   m_GameObject: {fileID: 1586817332}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 116.56, y: 0, z: -5}
+  m_LocalPosition: {x: -101.69, y: 0, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2021,6 +2087,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d62c4a562bf02fb4680995ccd2ea7231, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioManager: {fileID: 1073124430}
   endGamePos: {fileID: 1949948756}
   poop: {fileID: 5633159741422899084, guid: 50002836ed0ac1f458fb2395d69f942e, type: 3}
   poopScript: {fileID: 5573774579020869953, guid: 50002836ed0ac1f458fb2395d69f942e, type: 3}

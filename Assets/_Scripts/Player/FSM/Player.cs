@@ -32,6 +32,7 @@ public class Player : MonoBehaviour
     public Animator Anim {  get; private set; }
     public InputHandler InputHandler { get; private set; }
     public PlayerInput InputComponent { get; private set; }
+    public AudioManager audioManager;
 
     //external
     public Transform endGamePos;

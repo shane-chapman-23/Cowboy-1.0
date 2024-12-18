@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -97,10 +98,12 @@ public class LassoController : MonoBehaviour
         if (isPressed)
         {
             SwitchAnimation(normalToLassoMap);
+            PlayLassoSwingingAudio();
         }
         else
         {
             SwitchAnimation(lassoToNormalMap);
+            StopLassoSwingingAudio();
         }
     }
 
@@ -111,8 +114,38 @@ public class LassoController : MonoBehaviour
             _player.Anim.Play(animationMap[_currentAnimStateInfo.shortNameHash], 0, _currentAnimStateInfo.normalizedTime);
         }
     }
-
     #endregion
+    private void PlayLassoSwingingAudio()
+    {
+        Sound lassoSwinging = Array.Find(Player.Instance.audioManager.sounds, sound => sound.name == "LassoSwinging");
+
+        if (lassoSwinging != null && !lassoSwinging.source.isPlaying)
+        {
+            Player.Instance.audioManager.Play("LassoSwinging");
+        }
+    }
+
+    private void StopLassoSwingingAudio()
+    {
+        Player.Instance.audioManager.Stop("LassoSwinging");
+    }
+
+    private void PlayLassoThrowingAudio()
+    {
+        Sound throwingLasso = Array.Find(Player.Instance.audioManager.sounds, sound => sound.name == "LassoThrowing");
+
+        if (throwingLasso != null && !throwingLasso.source.isPlaying)
+        {
+            Player.Instance.audioManager.Play("LassoThrowing");
+        }
+    }
+
+    private void StopLassoThrowingAudio()
+    {
+        Player.Instance.audioManager.Stop("LassoThrowing");
+    }
+
+    
 
     #region Handle Lasso Functions
     private void HandleInstantiateAndThrowLasso()
@@ -123,6 +156,8 @@ public class LassoController : MonoBehaviour
             ThrowLasso();
 
             _player.InputHandler.SetLassoInputUpFalse();
+
+            PlayLassoThrowingAudio();
         }
     }
 
@@ -131,6 +166,8 @@ public class LassoController : MonoBehaviour
         if (_lassoSpawned && _lassoScript.isGrounded)
         {
             ReturnLasso();
+
+            StopLassoThrowingAudio();
         }
     }
 
@@ -186,6 +223,8 @@ public class LassoController : MonoBehaviour
     {
         Destroy(_lassoInstance);
         _lassoInstance = null;
+
+        StopLassoThrowingAudio();
     }
     #endregion
 

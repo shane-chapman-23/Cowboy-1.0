@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class AnimalLassoedState : AnimalState
@@ -81,10 +82,12 @@ public class AnimalLassoedState : AnimalState
         if (input < 0)
         {
             animal.SetVelocity(Vector2.right * input, _pullingForce);
+            PlayRopeStretchingAudio();
         }
         else
         {
             animal.SetVelocity(Vector2.right * allowedMovementDirection, _resistingForce);
+            StopRopeStretchingAudio();
         }
     }
 
@@ -93,10 +96,12 @@ public class AnimalLassoedState : AnimalState
         if (input > 0)
         {
             animal.SetVelocity(Vector2.right * input, _pullingForce);
+            PlayRopeStretchingAudio();
         }
         else
         {
             animal.SetVelocity(Vector2.right * allowedMovementDirection, _resistingForce);
+            StopRopeStretchingAudio();
         } 
     }
 
@@ -104,6 +109,7 @@ public class AnimalLassoedState : AnimalState
     {
         if (MinigameManager.Instance.GameLost)
         {
+            StopRopeStretchingAudio();
             animal.ChangeState(animal.IdleState);
         }
     }
@@ -112,7 +118,22 @@ public class AnimalLassoedState : AnimalState
     {
         if (MinigameManager.Instance.GameWon)
         {
+            StopRopeStretchingAudio();
             animal.ChangeState(animal.CaughtState);
         }
+    }
+
+    private void PlayRopeStretchingAudio()
+    {
+        Sound ropeStretching = Array.Find(Player.Instance.audioManager.sounds, sound => sound.name == "RopeStretching");
+        if (ropeStretching != null && !ropeStretching.source.isPlaying)
+        {
+            Player.Instance.audioManager.Play("RopeStretching");
+        }
+    }
+
+    private void StopRopeStretchingAudio()
+    {
+        Player.Instance.audioManager.Stop("RopeStretching");
     }
 }

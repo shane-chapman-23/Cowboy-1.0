@@ -25,7 +25,7 @@ public class MinigameManager : MonoBehaviour
 
     private float _fatigueAmount = 0f;
     private float _maxFatigue = 20f;
-    private float _fatigueRate = 60f;
+    private float _fatigueRate = 50f;
     public float FillAmount { get; private set; }
 
     private float _delayTimer;

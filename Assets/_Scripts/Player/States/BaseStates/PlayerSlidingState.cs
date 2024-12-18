@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerSlidingState : PlayerState
 {
-    private float _decelerationRate = 10f;
+    private float _decelerationRate = 5f;
     public PlayerSlidingState(Player player, PlayerFSMController stateMachineController, PlayerData playerData, string animBoolName) : base(player, stateMachineController, playerData, animBoolName)
     {
     }
@@ -41,6 +41,12 @@ public class PlayerSlidingState : PlayerState
 
     private void CheckIfShouldChangeToLassoedState()
     {
+        if (player.Rigidbody.linearVelocity.magnitude < 0.1f && GameManager.Instance.endGame)
+        {
+            player.ChangeState(player.IdleState);
+            return;
+        }
+
         if (player.Rigidbody.linearVelocity.magnitude < 0.1f && stateMachineController.CurrentState != player.LassoedAnimalState)
         {
             player.Rigidbody.linearVelocity = Vector2.zero;

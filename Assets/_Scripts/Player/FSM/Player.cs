@@ -1,4 +1,6 @@
+using System.Xml.Serialization;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.XInput;
 
 public class Player : MonoBehaviour
@@ -29,8 +31,10 @@ public class Player : MonoBehaviour
     public Rigidbody2D Rigidbody { get; private set; }
     public Animator Anim {  get; private set; }
     public InputHandler InputHandler { get; private set; }
+    public PlayerInput InputComponent { get; private set; }
 
     //external
+    public Transform endGamePos;
     public GameObject poop;
     public Poop poopScript;
     #endregion
@@ -75,6 +79,7 @@ public class Player : MonoBehaviour
         InputHandler = GetComponent<InputHandler>();
         Rigidbody = GetComponent<Rigidbody2D>();
         Anim = GetComponent<Animator>();
+        InputComponent = GetComponent<PlayerInput>();
     }
 
     private void Start()
@@ -89,6 +94,7 @@ public class Player : MonoBehaviour
         xInput = InputHandler.NormInputX;
 
         HandleSlidingStateChange();
+        HandleEndGameSlidingStateChange();
     }
 
     private void FixedUpdate()
@@ -132,5 +138,19 @@ public class Player : MonoBehaviour
     {
         Vector3 spawnPosition = new Vector3(transform.position.x, transform.position.y, -1f);
         GameObject poopInstance = Instantiate(poop, spawnPosition, transform.rotation);
+    }
+
+    public void DisableInput()
+    {
+        InputComponent.enabled = false;
+    }
+
+    private void HandleEndGameSlidingStateChange()
+    {
+        bool conditionsMet = StateMachineController.CurrentState == GallopState && transform.position.x >= endGamePos.position.x;
+        if (conditionsMet)
+        {
+            ChangeState(SlidingState);
+        }
     }
 }

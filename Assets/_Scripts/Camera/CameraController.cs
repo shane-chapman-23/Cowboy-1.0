@@ -4,75 +4,111 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     private CinemachineCamera _camera;
-    private CinemachineBasicMultiChannelPerlin _cinemachineBasicMultiChannelPerlin;
+    private CinemachineBasicMultiChannelPerlin _cameraShake;
 
-    private Vector3 _animalAndPlayerCenterPoint;
+    private Vector3 _animalPlayerCenter;
     private GameObject _followTarget;
-    private Vector3 _followOffset = new Vector3(2f, 0f, 0f);
+    private Vector3 _cameraOffset = new Vector3(5f, 0f, 0f);
+    private Vector3 _targetCameraPosition;
 
     private float _zoomSpeed = 1f;
     private float _targetFOV = 2.5f;
     private float _originalFOV = 3f;
+    private float _endOfMapFOV = 5f;
+
+    [SerializeField]
+    private Transform _endOfMap;
+
+    private bool _hasZoomedOut = false;
+    
 
     private void Awake()
     {
         _camera = GetComponent<CinemachineCamera>();
-        _cinemachineBasicMultiChannelPerlin = GetComponent<CinemachineBasicMultiChannelPerlin>();
+        _cameraShake = GetComponent<CinemachineBasicMultiChannelPerlin>();
         _followTarget = new GameObject("CameraFollowTarget");
         _camera.Follow = _followTarget.transform;
     }
 
     private void FixedUpdate()
     {
-        HandleAnimalLassoedCamera();
-        HandleCameraShakeOnLassoed();
+        HandleCamera();
     }
 
-    private void HandleAnimalLassoedCamera()
+    private void HandleCamera()
     {
-        if (MinigameManager.Instance.GameWon)
+        if (Player.Instance.transform.position.x >= _endOfMap.position.x)
         {
-            _camera.Follow = null;
-            //ManuallySetCameraPos();
-            ReturnToOriginalFieldOfView();
-        }
-        else if (LassoController.Instance.AnimalLassoed)
-        {
-            FindAnimalAndPlayerCenter();
-            ChangeCameraPositionOnLassoed();
-            ZoomCameraOnLassoed();
+            ZoomOutAtEndOfMap();
         }
         else
         {
-            ReturnToOriginalFieldOfView();
-            ReturnToOriginalFollowTarget();
-
+            HandleAnimalLassoedCamera();
+            HandleCameraShake();
         }
     }
 
-    private void ReturnToOriginalFollowTarget()
+    private void HandleAnimalLassoedCamera()
+    {        
+        if (MinigameManager.Instance.GameWon)
+        {
+            _camera.Follow = null;
+            ResetToDefaultZoom();
+        }
+        else if (LassoController.Instance.AnimalLassoed)
+        {
+            UpdateAnimalPlayerCenter();
+            SetCameraToAnimalPlayerCenter();
+            ZoomCameraToTargetFOV();
+        }
+        else
+        {
+            ResetToDefaultZoom();
+            ResetFollowTarget();
+        }
+    }
+    private void HandleEndMapZoom()
     {
-        _camera.Follow = Player.Instance.transform;
+
+
+    }
+    private void ZoomOutAtEndOfMap()
+    {
+        if (!_hasZoomedOut)
+        {
+            _camera.Follow = null;
+            _targetCameraPosition = _camera.transform.position + _cameraOffset;
+            _hasZoomedOut = true;
+        }
+
+        float currentFOV = _camera.Lens.OrthographicSize;
+        Vector3 currentPosition = _camera.transform.position;
+
+        if (currentFOV < _endOfMapFOV)
+        {
+            currentFOV = Mathf.Lerp(currentFOV, _endOfMapFOV, _zoomSpeed * Time.deltaTime);
+            _camera.Lens.OrthographicSize = Mathf.Min(currentFOV, _endOfMapFOV);
+        }
+
+        _camera.transform.position = Vector3.Lerp(currentPosition, _targetCameraPosition, _zoomSpeed * Time.deltaTime);
+        
+
     }
 
-    private void ManuallySetCameraPos()
+
+
+    private void UpdateAnimalPlayerCenter()
     {
-        Vector3 manualPosition = new Vector3(Player.Instance.playerPositionOnAnimalLassoed.x, (Player.Instance.playerPositionOnAnimalLassoed.y), _camera.transform.position.z);
-        _camera.transform.position = manualPosition;
+        _animalPlayerCenter = new Vector2((Player.Instance.transform.position.x + LassoController.Instance.CurrentLassoedAnimal.transform.position.x) / 2f, Player.Instance.transform.position.y);
+        _followTarget.transform.position = _animalPlayerCenter;
     }
 
-    private void FindAnimalAndPlayerCenter()
-    {
-        _animalAndPlayerCenterPoint = new Vector2((Player.Instance.transform.position.x + LassoController.Instance.CurrentLassoedAnimal.transform.position.x) / 2f, Player.Instance.transform.position.y);
-        _followTarget.transform.position = _animalAndPlayerCenterPoint;
-    }
-
-    private void ChangeCameraPositionOnLassoed()
+    private void SetCameraToAnimalPlayerCenter()
     {
         _camera.Follow = _followTarget.transform;
     }
 
-    private void ZoomCameraOnLassoed()
+    private void ZoomCameraToTargetFOV()
     {
         float orthographicSize = _camera.Lens.OrthographicSize;
 
@@ -83,30 +119,35 @@ public class CameraController : MonoBehaviour
         }
     }
 
-    private void ReturnToOriginalFieldOfView()
+    private void ResetToDefaultZoom()
     {
         float orthographicSize = _camera.Lens.OrthographicSize;
 
-        if (orthographicSize < _originalFOV)
+        if (orthographicSize != _originalFOV)
         {
-            orthographicSize += _zoomSpeed * Time.deltaTime;
-            _camera.Lens.OrthographicSize = Mathf.Min(orthographicSize, _originalFOV);
+            orthographicSize = Mathf.Lerp(orthographicSize, _originalFOV, _zoomSpeed * Time.deltaTime);
+            _camera.Lens.OrthographicSize = orthographicSize;
         }
     }
 
-    private void HandleCameraShakeOnLassoed()
+    private void ResetFollowTarget()
+    {
+        _camera.Follow = Player.Instance.transform;
+    }
+
+    private void HandleCameraShake()
     {
         if (MinigameManager.Instance.GameWon)
         {
-            _cinemachineBasicMultiChannelPerlin.AmplitudeGain = 0f;
+            _cameraShake.AmplitudeGain = 0f;
         }
         else if (LassoController.Instance.AnimalLassoed)
         {
-            _cinemachineBasicMultiChannelPerlin.AmplitudeGain = 0.2f + (MinigameManager.Instance.FillAmount * 2);
+            _cameraShake.AmplitudeGain = 0.2f + (MinigameManager.Instance.FillAmount * 2);
         }
         else
         {
-            _cinemachineBasicMultiChannelPerlin.AmplitudeGain = 0f;
+            _cameraShake.AmplitudeGain = 0f;
         }
     }
 }

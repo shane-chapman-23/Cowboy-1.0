@@ -7,7 +7,11 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     [SerializeField]
-    private Transform fadeToBlackTrigger;
+    private Transform _fadeToBlackTrigger;
+    [SerializeField]
+    private Transform _endGame;
+
+    public bool endGame;
 
     private float fadeDuration = 1.0f;
     private bool _isTransitioning;
@@ -15,6 +19,7 @@ public class GameManager : MonoBehaviour
     private int _animalsCaught = 0;
 
     public Image fadeImage;
+    public Image Title;
 
     private void Awake()
     {
@@ -24,12 +29,33 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         StartAnimalCaughtTransition();
+        DisablePlayerInputOnEndGame();
     }
 
+    #region
+    private void DisablePlayerInputOnEndGame()
+    {
+        if (Player.Instance.transform.position.x >= _endGame.position.x)
+        {
+            Player.Instance.DisableInput();
+            endGame = true;
+            StartCoroutine(ShowTitleScreen());
+        }
+    }
+
+    private IEnumerator ShowTitleScreen()
+    {
+        yield return new WaitForSeconds(3);
+
+        Title.gameObject.SetActive(true);
+    }
+    #endregion
+
+    #region Animal Caught Transition Functions
     private void StartAnimalCaughtTransition()
     {
         bool transitionConditionsMet = Player.Instance.StateMachineController.CurrentState == Player.Instance.CaughtAnimalState
-            && Player.Instance.transform.position.x < fadeToBlackTrigger.position.x;
+            && Player.Instance.transform.position.x < _fadeToBlackTrigger.position.x;
 
         if (transitionConditionsMet && !_isTransitioning)
         {
@@ -99,4 +125,6 @@ public class GameManager : MonoBehaviour
     {
         yield return StartCoroutine(FadeTransition(false));
     }
+
+    #endregion
 }

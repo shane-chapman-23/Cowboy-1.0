@@ -5,6 +5,11 @@ public class AnimalFleeState : AnimalMoveState
     private float _stopFleeingTimer = 0f;
     private float _stopFleeingDelay = 2f;
 
+    private float _ignorePlayerTimer = 0f;
+    private float _ignorePlayerDuration = 5f;
+
+    private Vector2 _fleeDirection;
+
     public AnimalFleeState(Animal animal, AnimalFSMController stateMachineController, AnimalData animalData, string animBoolName) : base(animal, stateMachineController, animalData, animBoolName)
     {
     }
@@ -12,31 +17,66 @@ public class AnimalFleeState : AnimalMoveState
     public override void Enter()
     {
         base.Enter();
+        animal.IgnorePlayer = false;
+        _ignorePlayerTimer = 0f;
+        SetInitialFleeDirection();
     }
 
     public override void Exit()
     {
         base.Exit();
+        animal.IgnorePlayer = false;
     }
 
     public override void LogicUpdate()
     {
         base.LogicUpdate();
 
-        animal.SetFacingDirection();
+        if (!animal.IgnorePlayer)
+            animal.SetFacingDirection();
+
         UpdateFleeStatus();
+        SetFleeDirection();
+        UpdateIgnorePlayerStatus();
     }
 
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
 
-        animal.SetVelocity(FleeDirection(), animalData.Velocity);
+        animal.SetVelocity(_fleeDirection, animalData.Velocity);
     }
 
-    private Vector2 FleeDirection()
+    private void SetFleeDirection()
     {
-        return (animal.PlayerIsRight ? Vector2.left : Vector2.right);
+        Vector2 previousDirection = _fleeDirection;
+
+        if (animal.transform.position.x <= GameManager.Instance.mapEdgeLeft.position.x)
+        {
+            animal.IgnorePlayer = true;
+            _fleeDirection = Vector2.right;
+
+        }
+        else if (animal.transform.position.x >= GameManager.Instance.mapEdgeRight.position.x)
+        {
+            animal.IgnorePlayer = true;
+            _fleeDirection = Vector2.left;
+        }
+        else if (!animal.IgnorePlayer)
+        {
+            _fleeDirection = (animal.PlayerIsRight ? Vector2.left : Vector2.right);
+        }
+
+        if (_fleeDirection != previousDirection)
+        {
+            animal.Flip();
+        }
+
+    }
+
+    private void SetInitialFleeDirection()
+    {
+        _fleeDirection = (animal.PlayerIsRight ? Vector2.left : Vector2.right);
     }
 
     private void UpdateFleeStatus()
@@ -63,6 +103,19 @@ public class AnimalFleeState : AnimalMoveState
         if (_stopFleeingTimer >= _stopFleeingDelay)
         {
             animal.ChangeState(animal.IdleState);
+        }
+    }
+
+    private void UpdateIgnorePlayerStatus()
+    {
+        if (animal.IgnorePlayer)
+        {
+            _ignorePlayerTimer += Time.deltaTime;
+            if (_ignorePlayerTimer >= _ignorePlayerDuration)
+            {
+                animal.IgnorePlayer = false;
+                _ignorePlayerTimer = 0f;
+            }
         }
     }
 }

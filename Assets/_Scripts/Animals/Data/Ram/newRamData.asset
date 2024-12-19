@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 829e93295eeb3584cb72a38bd8b0bf3b, type: 3}
   m_Name: newRamData
   m_EditorClassIdentifier: 
+  whatIsMapEdge:
+    serializedVersion: 2
+    m_Bits: 1024
   whatIsLasso:
     serializedVersion: 2
     m_Bits: 128

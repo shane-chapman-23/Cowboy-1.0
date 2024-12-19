@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 773bc01b960c9234d9d94e31cb3f9ea9, type: 3}
   m_Name: newSheepData
   m_EditorClassIdentifier: 
+  whatIsMapEdge:
+    serializedVersion: 2
+    m_Bits: 1024
   whatIsLasso:
     serializedVersion: 2
     m_Bits: 128

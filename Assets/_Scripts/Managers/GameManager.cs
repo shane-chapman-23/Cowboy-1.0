@@ -11,12 +11,15 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Transform _endGame;
 
+    public Transform mapEdgeLeft;
+    public Transform mapEdgeRight;
+
     public bool endGame;
 
     private float fadeDuration = 1.0f;
     private bool _isTransitioning;
 
-    private int _animalsCaught = 0;
+    public int animalsCaught = 0;
 
     public Image fadeImage;
     public Image Title;
@@ -35,7 +38,7 @@ public class GameManager : MonoBehaviour
     #region
     private void DisablePlayerInputOnEndGame()
     {
-        if (Player.Instance.transform.position.x >= _endGame.position.x)
+        if (Player.Instance.transform.position.x >= _endGame.position.x && animalsCaught == 5)
         {
             Player.Instance.DisableInput();
             endGame = true;
@@ -79,7 +82,7 @@ public class GameManager : MonoBehaviour
 
         AnimalManager.Instance.SpawnAnimal();
 
-        _animalsCaught++;
+        animalsCaught++;
 
         yield return new WaitForSeconds(1f);
         yield return StartCoroutine(FadeFromBlack());

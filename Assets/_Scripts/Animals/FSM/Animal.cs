@@ -18,6 +18,7 @@ public class Animal : MonoBehaviour
     public Vector2 DirectionToPlayer { get; private set; }
     public bool PlayerIsRight { get; private set; }
     public bool PlayerDetected { get; private set; }
+    public bool IgnorePlayer = false;
 
     public int FacingDirection { get; private set; } = 1;
 
@@ -132,11 +133,6 @@ public class Animal : MonoBehaviour
     {
         FacingDirection *= -1;
         transform.Rotate(0.0f, 180.0f, 0.0f);
-    }
-
-    private void CheckForNearbyFleeingAnimals()
-    {
-
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

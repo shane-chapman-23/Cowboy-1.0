@@ -148,7 +148,7 @@ public class Player : MonoBehaviour
 
     private void HandleEndGameSlidingStateChange()
     {
-        bool conditionsMet = StateMachineController.CurrentState == GallopState && transform.position.x >= endGamePos.position.x;
+        bool conditionsMet = StateMachineController.CurrentState == GallopState && transform.position.x >= endGamePos.position.x && GameManager.Instance.animalsCaught == 5;
         if (conditionsMet)
         {
             ChangeState(SlidingState);

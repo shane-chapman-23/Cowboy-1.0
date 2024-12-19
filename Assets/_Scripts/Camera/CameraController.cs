@@ -37,7 +37,7 @@ public class CameraController : MonoBehaviour
 
     private void HandleCamera()
     {
-        if (Player.Instance.transform.position.x >= _endOfMap.position.x)
+        if (Player.Instance.transform.position.x >= _endOfMap.position.x && GameManager.Instance.animalsCaught == 5)
         {
             ZoomOutAtEndOfMap();
         }
@@ -67,11 +67,7 @@ public class CameraController : MonoBehaviour
             ResetFollowTarget();
         }
     }
-    private void HandleEndMapZoom()
-    {
 
-
-    }
     private void ZoomOutAtEndOfMap()
     {
         if (!_hasZoomedOut)
@@ -91,8 +87,6 @@ public class CameraController : MonoBehaviour
         }
 
         _camera.transform.position = Vector3.Lerp(currentPosition, _targetCameraPosition, _zoomSpeed * Time.deltaTime);
-        
-
     }
 
 

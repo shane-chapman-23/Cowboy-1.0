@@ -82,12 +82,12 @@ public class AnimalLassoedState : AnimalState
         if (input < 0)
         {
             animal.SetVelocity(Vector2.right * input, _pullingForce);
-            PlayRopeStretchingAudio();
+            //PlayRopeStretchingAudio();
         }
         else
         {
             animal.SetVelocity(Vector2.right * allowedMovementDirection, _resistingForce);
-            StopRopeStretchingAudio();
+            //StopRopeStretchingAudio();
         }
     }
 
@@ -96,12 +96,12 @@ public class AnimalLassoedState : AnimalState
         if (input > 0)
         {
             animal.SetVelocity(Vector2.right * input, _pullingForce);
-            PlayRopeStretchingAudio();
+            //PlayRopeStretchingAudio();
         }
         else
         {
             animal.SetVelocity(Vector2.right * allowedMovementDirection, _resistingForce);
-            StopRopeStretchingAudio();
+            //StopRopeStretchingAudio();
         } 
     }
 
@@ -109,7 +109,7 @@ public class AnimalLassoedState : AnimalState
     {
         if (MinigameManager.Instance.GameLost)
         {
-            StopRopeStretchingAudio();
+            //StopRopeStretchingAudio();
             animal.ChangeState(animal.IdleState);
         }
     }
@@ -118,7 +118,7 @@ public class AnimalLassoedState : AnimalState
     {
         if (MinigameManager.Instance.GameWon)
         {
-            StopRopeStretchingAudio();
+            //StopRopeStretchingAudio();
             animal.ChangeState(animal.CaughtState);
         }
     }

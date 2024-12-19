@@ -42,6 +42,7 @@ public class MinigameManager : MonoBehaviour
         HandleFatigueGuage();
         HandleGameLoss();
         HandleGameWin();
+
     }
 
     #region Fatigue Functions

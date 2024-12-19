@@ -13,13 +13,14 @@ public class GameManager : MonoBehaviour
 
     public Transform mapEdgeLeft;
     public Transform mapEdgeRight;
+    public Transform endGameSpawn;
 
     public bool endGame;
 
     private float fadeDuration = 1.0f;
     private bool _isTransitioning;
 
-    public int animalsCaught = 0;
+    public int animalsCaught;
 
     public Image fadeImage;
     public Image Title;
@@ -29,6 +30,11 @@ public class GameManager : MonoBehaviour
         Instance = this;
     }
 
+    private void Start()
+    {
+
+        //animalsCaught = 5;
+    }
     private void Update()
     {
         StartAnimalCaughtTransition();

@@ -19,5 +19,5 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   playerDetectionRadius: 5
-  velocity: 2.5
+  velocity: 2.7
   strength: 16

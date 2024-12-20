@@ -25,7 +25,7 @@ public class MinigameManager : MonoBehaviour
 
     private float _fatigueAmount = 0f;
     private float _maxFatigue = 20f;
-    private float _fatigueRate = 50f;
+    private float _fatigueRate = 40f;
     public float FillAmount { get; private set; }
 
     private float _delayTimer;
@@ -63,7 +63,7 @@ public class MinigameManager : MonoBehaviour
                 {
                     _delayStarted = true;
                     _delayTimer = 0;
-                    _randomDelay = UnityEngine.Random.Range(0.2f, 1.5f);
+                    _randomDelay = UnityEngine.Random.Range(0.5f, 1.5f);
                 }
 
                 _delayTimer += Time.deltaTime;
@@ -103,11 +103,7 @@ public class MinigameManager : MonoBehaviour
 
         if (FillAmount == 1)
         {
-            FillAmount = 0;
-            _delayTimer = 0;
-            _fatigueAmount = 0;
-            _delayStarted = false;
-            _fatigueFill.rectTransform.localScale = new Vector3(1, 0, 1);
+            ResetFatigue();
             GameLoss();
             SetMiniGameStartedFalse();
             
@@ -167,6 +163,7 @@ public class MinigameManager : MonoBehaviour
             {
                 GameWin();
                 SetMiniGameStartedFalse();
+                ResetFatigue();
             }
         }
     }
@@ -186,6 +183,7 @@ public class MinigameManager : MonoBehaviour
             {
                 GameLoss();
                 SetMiniGameStartedFalse();
+                ResetFatigue();
             }
         }
     }
@@ -210,7 +208,15 @@ public class MinigameManager : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
         GameLost = false;
         GameWon = false;
+    }
 
+    private void ResetFatigue()
+    {
+        FillAmount = 0;
+        _delayTimer = 0;
+        _fatigueAmount = 0;
+        _delayStarted = false;
+        _fatigueFill.rectTransform.localScale = new Vector3(1, 0, 1);
     }
 
     #endregion

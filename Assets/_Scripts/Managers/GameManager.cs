@@ -28,12 +28,13 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+
+        SetInitialBlackScreen();
     }
 
     private void Start()
     {
-
-        //animalsCaught = 5;
+        StartCoroutine(StartGame());
     }
     private void Update()
     {
@@ -72,6 +73,22 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void SetInitialBlackScreen()
+    {
+        Color color = fadeImage.color;
+        color.a = 1f;
+        fadeImage.color = color;
+    }
+
+    private IEnumerator StartGame()
+    {
+
+
+        yield return new WaitForSeconds(2f);
+
+        StartCoroutine(FadeFromBlack());
+    }
+
     private IEnumerator AnimalCaughtTransition()
     {
         _isTransitioning = true;
@@ -82,8 +99,8 @@ public class GameManager : MonoBehaviour
         LassoController.Instance.DestroyCurrentAnimal();
         LassoController.Instance.SetCurrentLassoedAnimalNull();
         Player.Instance.ChangeState(Player.Instance.IdleState);
-        Player.Instance.transform.position = Player.Instance.playerPositionOnAnimalLassoed;
 
+        HandlePlayerRespawn();
         HandlePlayerFacingDirection();
 
         AnimalManager.Instance.SpawnAnimal();
@@ -94,6 +111,18 @@ public class GameManager : MonoBehaviour
         yield return StartCoroutine(FadeFromBlack());
 
         _isTransitioning = false;
+    }
+
+    private void HandlePlayerRespawn()
+    {
+        if (animalsCaught > 4)
+        {
+            Player.Instance.transform.position = endGameSpawn.position;
+        }
+        else
+        {
+            Player.Instance.transform.position = Player.Instance.playerPositionOnAnimalLassoed;
+        }
     }
 
     private void HandlePlayerFacingDirection()

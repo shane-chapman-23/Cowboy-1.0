@@ -137,7 +137,7 @@ public class CameraController : MonoBehaviour
         }
         else if (LassoController.Instance.AnimalLassoed)
         {
-            _cameraShake.AmplitudeGain = 0.2f + (MinigameManager.Instance.FillAmount * 2);
+            _cameraShake.AmplitudeGain = 0.5f + (MinigameManager.Instance.FillAmount * 2);
         }
         else
         {

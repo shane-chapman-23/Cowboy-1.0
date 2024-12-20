@@ -146,6 +146,11 @@ public class Player : MonoBehaviour
         InputComponent.enabled = false;
     }
 
+    public void EnableInput()
+    {
+        InputComponent.enabled = true;
+    }
+
     private void HandleEndGameSlidingStateChange()
     {
         bool conditionsMet = StateMachineController.CurrentState == GallopState && transform.position.x >= endGamePos.position.x && GameManager.Instance.animalsCaught == 5;

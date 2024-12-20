@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LassoController : MonoBehaviour
 {
@@ -20,6 +21,8 @@ public class LassoController : MonoBehaviour
     private Transform _animalLassoedLineAnchor;
     [SerializeField]
     private LassoPixelPoolManager _lassoPixelPool;
+    [SerializeField]
+    private Image _trajectoryIcon;
 
     private GameObject _lassoInstance;
     private Lasso _lassoScript;
@@ -36,7 +39,7 @@ public class LassoController : MonoBehaviour
     private bool _lassoSpawned;
     public bool AnimalLassoed { get; private set; }
 
-    private float _throwForce = 4f;
+    private float _throwForce = 6f;
     private float _returnForce = 20f;
     private float _pixelsPerUnit = 16f;
 
@@ -49,6 +52,7 @@ public class LassoController : MonoBehaviour
     {
         HandleLassoAnimationSync();
         HandleMinigameLoss();
+
     }
 
     private void LateUpdate()
@@ -99,11 +103,13 @@ public class LassoController : MonoBehaviour
         {
             SwitchAnimation(normalToLassoMap);
             PlayLassoSwingingAudio();
+            EnableTrajectoryIcon();
         }
         else
         {
             SwitchAnimation(lassoToNormalMap);
             StopLassoSwingingAudio();
+            DisableTrajectoryIcon();
         }
     }
 
@@ -113,6 +119,17 @@ public class LassoController : MonoBehaviour
         {
             _player.Anim.Play(animationMap[_currentAnimStateInfo.shortNameHash], 0, _currentAnimStateInfo.normalizedTime);
         }
+    }
+
+
+    private void EnableTrajectoryIcon()
+    {
+        _trajectoryIcon.gameObject.SetActive(true);
+    }
+
+    private void DisableTrajectoryIcon()
+    {
+        _trajectoryIcon.gameObject.SetActive(false);
     }
     #endregion
     private void PlayLassoSwingingAudio()

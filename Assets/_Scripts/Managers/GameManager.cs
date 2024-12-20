@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,6 +11,10 @@ public class GameManager : MonoBehaviour
     private Transform _fadeToBlackTrigger;
     [SerializeField]
     private Transform _endGame;
+    [SerializeField]
+    private GameObject _menu;
+
+    private bool _isMenuActive = false;
 
     public Transform mapEdgeLeft;
     public Transform mapEdgeRight;
@@ -34,25 +39,37 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        animalsCaught = 5;
+
         StartCoroutine(StartGame());
+        HandlePlayerRespawn();
     }
     private void Update()
     {
         StartAnimalCaughtTransition();
-        DisablePlayerInputOnEndGame();
+        HandleEndGame();
+        HandleInGameMenu();
     }
 
     #region
-    private void DisablePlayerInputOnEndGame()
+    private void HandleEndGame()
     {
-        if (Player.Instance.transform.position.x >= _endGame.position.x && animalsCaught == 5)
+        if (Player.Instance.transform.position.x >= _endGame.position.x && animalsCaught == 5 && !endGame)
         {
-            Player.Instance.DisableInput();
             endGame = true;
+            Player.Instance.DisableInput();
             StartCoroutine(ShowTitleScreen());
+            StartCoroutine(ReturnToMainMenu());
         }
     }
 
+    private IEnumerator ReturnToMainMenu()
+    {
+        yield return new WaitForSeconds(5);
+        yield return StartCoroutine(FadeToBlack());
+        yield return new WaitForSeconds(2);
+        SceneManager.LoadScene("MainMenu");
+    }
     private IEnumerator ShowTitleScreen()
     {
         yield return new WaitForSeconds(3);
@@ -89,6 +106,23 @@ public class GameManager : MonoBehaviour
         StartCoroutine(FadeFromBlack());
     }
 
+    private void HandleInGameMenu()
+    {
+        if (Player.Instance.InputHandler.EscapePressed)
+        {
+            ToggleMenu();
+            Player.Instance.InputHandler.SetEscapeFalse();
+        }
+    }
+
+    private void ToggleMenu()
+    {
+        _isMenuActive = !_isMenuActive;
+        _menu.SetActive(_isMenuActive);
+    }
+
+
+
     private IEnumerator AnimalCaughtTransition()
     {
         _isTransitioning = true;
@@ -100,12 +134,14 @@ public class GameManager : MonoBehaviour
         LassoController.Instance.SetCurrentLassoedAnimalNull();
         Player.Instance.ChangeState(Player.Instance.IdleState);
 
+        animalsCaught++;
+
         HandlePlayerRespawn();
         HandlePlayerFacingDirection();
 
         AnimalManager.Instance.SpawnAnimal();
 
-        animalsCaught++;
+        
 
         yield return new WaitForSeconds(1f);
         yield return StartCoroutine(FadeFromBlack());
@@ -117,7 +153,7 @@ public class GameManager : MonoBehaviour
     {
         if (animalsCaught > 4)
         {
-            Player.Instance.transform.position = endGameSpawn.position;
+            Player.Instance.transform.position = new Vector2(endGameSpawn.position.x, Player.Instance.transform.position.y);
         }
         else
         {

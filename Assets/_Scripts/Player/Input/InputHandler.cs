@@ -9,6 +9,8 @@ public class InputHandler : MonoBehaviour
     public bool LassoInputDown { get; private set; }
     public bool LassoInputUp { get; private set; }
 
+    public bool EscapePressed { get; private set; }
+
 
     public void OnMoveInput(InputAction.CallbackContext context)
     {
@@ -28,6 +30,19 @@ public class InputHandler : MonoBehaviour
         {
             GallopInput = false;
         }
+    }
+
+    public void OnEscapeInput(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            EscapePressed = true;
+        }
+    }
+
+    public void SetEscapeFalse()
+    {
+        EscapePressed = false;
     }
 
     public void OnLassoInput(InputAction.CallbackContext context)

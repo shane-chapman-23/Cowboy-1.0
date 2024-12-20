@@ -213,8 +213,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 68456005}
-  - {fileID: 160622196}
+  - {fileID: 992249435}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -345,14 +344,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 68456005}
-  - component: {fileID: 68456006}
   m_Layer: 5
   m_Name: Menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &68456005
 RectTransform:
   m_ObjectHideFlags: 0
@@ -367,25 +365,13 @@ RectTransform:
   m_Children:
   - {fileID: 902967423}
   - {fileID: 1867983617}
-  m_Father: {fileID: 4715195}
+  m_Father: {fileID: 992249435}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &68456006
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 68456003}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09c9896820d5ff34da65f941c89a7e2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &83621316
 GameObject:
   m_ObjectHideFlags: 0
@@ -518,7 +504,7 @@ RectTransform:
   - {fileID: 535315435}
   - {fileID: 521219705}
   - {fileID: 1697662407}
-  m_Father: {fileID: 4715195}
+  m_Father: {fileID: 992249435}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1975,6 +1961,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 902967422}
   m_CullTransparentMesh: 1
+--- !u!1 &992249434
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 992249435}
+  - component: {fileID: 992249436}
+  m_Layer: 5
+  m_Name: Menus
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &992249435
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 992249434}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 68456005}
+  - {fileID: 160622196}
+  m_Father: {fileID: 4715195}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &992249436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 992249434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c9896820d5ff34da65f941c89a7e2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1017062795
 GameObject:
   m_ObjectHideFlags: 0
@@ -3038,8 +3074,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: fe331f46-6796-4884-b977-2a071d0ec42f
-    m_ActionName: 'Gameplay/Menu[/Keyboard/escape]'
+    m_ActionId: 8b674fe9-aea4-44cd-89ef-d693a40428e4
+    m_ActionName: 'Menu/Menu[/Keyboard/escape]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard
   m_DefaultActionMap: Gameplay
@@ -3660,7 +3696,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _fadeToBlackTrigger: {fileID: 161516832}
   _endGame: {fileID: 1949948756}
-  _menu: {fileID: 68456003}
+  _menu: {fileID: 992249434}
   mapEdgeLeft: {fileID: 807071988}
   mapEdgeRight: {fileID: 1903140148}
   endGameSpawn: {fileID: 1651798434}
@@ -3983,7 +4019,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 68456006}
+      - m_Target: {fileID: 992249436}
         m_TargetAssemblyTypeName: InGameMenu, Assembly-CSharp
         m_MethodName: QuitGame
         m_Mode: 1

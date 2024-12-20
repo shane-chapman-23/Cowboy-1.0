@@ -39,16 +39,14 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        animalsCaught = 5;
-
         StartCoroutine(StartGame());
-        HandlePlayerRespawn();
     }
     private void Update()
     {
         StartAnimalCaughtTransition();
         HandleEndGame();
         HandleInGameMenu();
+        HandleMenuGameplayInput();
     }
 
     #region
@@ -99,8 +97,6 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator StartGame()
     {
-
-
         yield return new WaitForSeconds(2f);
 
         StartCoroutine(FadeFromBlack());
@@ -112,6 +108,18 @@ public class GameManager : MonoBehaviour
         {
             ToggleMenu();
             Player.Instance.InputHandler.SetEscapeFalse();
+        }
+    }
+
+    private void HandleMenuGameplayInput()
+    {
+        if (!_isMenuActive)
+        {
+            Player.Instance.DisableInput();
+        }
+        else
+        {
+            Player.Instance.EnableInput();
         }
     }
 
@@ -140,8 +148,6 @@ public class GameManager : MonoBehaviour
         HandlePlayerFacingDirection();
 
         AnimalManager.Instance.SpawnAnimal();
-
-        
 
         yield return new WaitForSeconds(1f);
         yield return StartCoroutine(FadeFromBlack());

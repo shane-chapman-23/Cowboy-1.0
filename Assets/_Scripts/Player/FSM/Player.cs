@@ -51,6 +51,9 @@ public class Player : MonoBehaviour
 
     public Vector3 playerPositionOnAnimalLassoed;
 
+    private InputActionMap _gameplayActionMap;
+    private InputActionMap _uiActionMap;
+
     [HideInInspector]
     public int facingDirection = 1;
     public int xInput {  get; private set; }
@@ -81,6 +84,10 @@ public class Player : MonoBehaviour
         Rigidbody = GetComponent<Rigidbody2D>();
         Anim = GetComponent<Animator>();
         InputComponent = GetComponent<PlayerInput>();
+        _gameplayActionMap = InputComponent.actions.FindActionMap("Gameplay");
+        _uiActionMap = InputComponent.actions.FindActionMap("Menu");
+
+        _uiActionMap.Enable();
     }
 
     private void Start()
@@ -143,12 +150,12 @@ public class Player : MonoBehaviour
 
     public void DisableInput()
     {
-        InputComponent.enabled = false;
+        _gameplayActionMap.Enable();
     }
 
     public void EnableInput()
     {
-        InputComponent.enabled = true;
+        _gameplayActionMap.Disable();
     }
 
     private void HandleEndGameSlidingStateChange()

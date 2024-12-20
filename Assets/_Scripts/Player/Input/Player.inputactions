@@ -31,15 +31,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "Menu",
-                    "type": "Button",
-                    "id": "fe331f46-6796-4884-b977-2a071d0ec42f",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -152,21 +143,27 @@
                     "action": "Lasso",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
+                }
+            ]
+        },
+        {
+            "name": "Menu",
+            "id": "13214a45-e3ee-428c-a001-47e18de84fb0",
+            "actions": [
                 {
-                    "name": "",
-                    "id": "e0a42e37-6430-44a1-a358-9a9c206c420c",
-                    "path": "",
-                    "interactions": "",
+                    "name": "Menu",
+                    "type": "Button",
+                    "id": "8b674fe9-aea4-44cd-89ef-d693a40428e4",
+                    "expectedControlType": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "Menu",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
                 {
                     "name": "",
-                    "id": "6fda55dc-e666-4d6c-b8a7-881a54855468",
+                    "id": "e34955e1-2005-41b7-8de2-d637c3d14a20",
                     "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",
